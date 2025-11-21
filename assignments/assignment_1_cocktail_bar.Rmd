@@ -111,7 +111,6 @@ tribble(~name, ~Lime, ~`White rum`, ~`Cane sugar`, ~`Coca-cola`, ~Mint, ~Soda,
 
 ```
 
-
 Congrats, the bar is now officially open!
 
 ![](https://i.pinimg.com/originals/4e/c1/0c/4ec10c9d32b2c7c28b4b638c7f809ec5.gif){width="320"}
