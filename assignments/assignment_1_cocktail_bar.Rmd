@@ -31,15 +31,16 @@ Note: There are several different ways to solve these tasks, feel free to come u
 
 Read the cocktail dataset from: <https://github.com/nthun/cocktail-balance> You can also find the codebook there.
 
-{r} #5 perc eltelt míg rájöttem hogy nem csv cocktail_raw \<- read_tsv("https://raw.githubusercontent.com/nthun/cocktail-balance/refs/heads/master/cocktail_data.tsv")
+```{r} #5 perc eltelt míg rájöttem hogy nem csv
+cocktail_raw <- read_tsv("https://raw.githubusercontent.com/nthun/cocktail-balance/refs/heads/master/cocktail_data.tsv")
 
-```         
+```
 
 ## 2. Transform the data table and clean the ingredient variable!
 
 The ingredients are currently in a single cell for each cocktail. It would be better to put them in separate rows. Also, the variable should be cleaned of all quantities (e.g. 1/2 oz, 2 dashes, etc.), and the indicator of alcohol content (e.g. 47.3% abv). You will need to use this cleaned table in later tasks.
 
-{r} #az abv érézkeny téma az összetevőknél, nem mindegy hogy 37% rum vagy 82% rum kerül az koktélba, de kiszedem.
+```{r} #az abv érézkeny téma az összetevőknél, nem mindegy hogy 37% rum vagy 82% rum kerül az koktélba, de kiszedem.
 #létrehozunk egy változót a tisztított hozzávalóknak és megkezdjük a felesleges elemek eltávolítását
 ingredients_clean <- cocktail_raw %>%
   select(name, ingredients) %>% 
@@ -61,6 +62,7 @@ ingredients_clean <- cocktail_raw %>%
     
   )
   
+
 ```
 
 ## 3. All ingredients in alphabetical order
