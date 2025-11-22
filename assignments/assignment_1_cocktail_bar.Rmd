@@ -40,7 +40,14 @@ cocktail_raw <- read_tsv("https://raw.githubusercontent.com/nthun/cocktail-balan
 
 The ingredients are currently in a single cell for each cocktail. It would be better to put them in separate rows. Also, the variable should be cleaned of all quantities (e.g. 1/2 oz, 2 dashes, etc.), and the indicator of alcohol content (e.g. 47.3% abv). You will need to use this cleaned table in later tasks.
 
-```{r}
+```{r} #az abv érézkeny téma az összetevőknél, nem mindegy hogy 37% rum vagy 82% rum kerül az koktélba, de kiszedem.
+
+ingredient_list <- cocktail_raw %>%
+  select(name, ingredients) %>%
+  separate_rows(ingredients, sep = ",") %>%
+  mutate(
+    str_detect()
+  )
 
 ```
 
