@@ -43,14 +43,19 @@ The ingredients are currently in a single cell for each cocktail. It would be be
 ```{r} #az abv érézkeny téma az összetevőknél, nem mindegy hogy 37% rum vagy 82% rum kerül az koktélba, de kiszedem.
 
 ingredients_clean <- cocktail_raw %>%
-  #name columnból is kiszedem, van ahol megjelenik pl. abv
-  select(name, ingredients) %>% 
+  select(ingredients) %>% 
   separate_rows(ingredients, sep = ",") %>%
   mutate(
   ingredients_clean = ingredients %>%  
     str_remove_all("[0-9]") %>%
     str_remove_all("[[:punct:]]") %>%
-    str_remove_all("\\b(ml|mL|cl|l|L|dl|oz|fl oz|tsp|tbsp|dash|dashes|drop|drops|sprig|sprigs|splash|splashes|pinch|pinches|barspoon|bar spoon|bar-spoon|shot|shots|jigger|pony|cup|cups)\\b")
+    #megpróbálom kiszedni az összes lehető mértékegységet
+    str_remove_all("\\b(ml|mL|cl|l|L|dl|oz|fl oz|tsp|tbsp|dash|dashes|drop|drops|sprig|sprigs|splash|splashes|pinch|pinches|barspoon|bar spoon|bar-spoon|shot|shots|jigger|pony|cup|cups|abv|br|)\\b") %>%
+    #extra makacs <>, reméltem a [[:punct:]] viszi őket, de nem.
+    str_remove_all("[<>]") %>% 
+    #kiszedem az extra spaceket
+    str_squish() 
+
     
   )
   
