@@ -41,19 +41,22 @@ cocktail_raw <- read_tsv("https://raw.githubusercontent.com/nthun/cocktail-balan
 The ingredients are currently in a single cell for each cocktail. It would be better to put them in separate rows. Also, the variable should be cleaned of all quantities (e.g. 1/2 oz, 2 dashes, etc.), and the indicator of alcohol content (e.g. 47.3% abv). You will need to use this cleaned table in later tasks.
 
 ```{r} #az abv érézkeny téma az összetevőknél, nem mindegy hogy 37% rum vagy 82% rum kerül az koktélba, de kiszedem.
-
+#létrehozunk egy változót a tisztított hozzávalóknak és megkezdjük a felesleges elemek eltávolítását
 ingredients_clean <- cocktail_raw %>%
-  select(ingredients) %>% 
+  select(name, ingredients) %>% 
   separate_rows(ingredients, sep = ",") %>%
   mutate(
   ingredients_clean = ingredients %>%  
+    #számokat kiszedjük
     str_remove_all("[0-9]") %>%
-    str_remove_all("[[:punct:]]") %>%
-    #megpróbálom kiszedni az összes lehető mértékegységet
-    str_remove_all("\\b(ml|mL|cl|l|L|dl|oz|fl oz|tsp|tbsp|dash|dashes|drop|drops|sprig|sprigs|splash|splashes|pinch|pinches|barspoon|bar spoon|bar-spoon|shot|shots|jigger|pony|cup|cups|abv|br|)\\b") %>%
-    #extra makacs <>, reméltem a [[:punct:]] viszi őket, de nem.
-    str_remove_all("[<>]") %>% 
-    #kiszedem az extra spaceket
+    #breaket átíruk vesszővé 
+    str_replace_all("<br/>", ",") %>%
+    #kiszedünk minden szimbólumot, de az előbb kreált vesszők maradnak
+    str_remove_all("[[:punct:]&&[^,]]") %>%
+    #megpróbálom kiszedni az összes lehető mértékegységet amit mixologyban használnak
+    str_remove_all("\\b(ml|mL|cl|l|L|dl|oz|fl oz|tsp|tbsp|dash|dashes|drop|drops|sprig|sprigs|splash|splashes|pinch|pinches|barspoon|bar spoon|bar-spoon|shot|shots|jigger|pony|cup|cups|abv|)\\b") %>%
+    #kiszedjük a fölös leíró szavakat, syrup fajták maradnak (pl. simple,), de a "facsart"/"leheletnyi" repül
+    str_remove_all("\\b(fresh|optional|garnish|for|to|taste|rim|twist|wedge|wheel|slice|peeled|zest|organic|large|small|cube|cubes|crushed)\\b") %>%
     str_squish() 
 
     
