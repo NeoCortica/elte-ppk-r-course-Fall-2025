@@ -57,16 +57,25 @@ ingredients_clean <- cocktail_raw %>%
     #megpróbálom kiszedni az összes lehető mértékegységet amit mixologyban használnak
     str_remove_all("\\b(ml|mL|cl|l|L|dl|oz|fl oz|tsp|tbsp|dash|dashes|drop|drops|sprig|sprigs|splash|splashes|pinch|pinches|barspoon|bar spoon|bar-spoon|shot|shots|jigger|pony|cup|cups|abv|)\\b") %>%
     #kiszedjük a fölös leíró szavakat, syrup fajták maradnak (pl. simple,), de a "facsart"/"leheletnyi" repül
-    str_remove_all("\\b(fresh|optional|garnish|for|to|taste|rim|twist|wedge|wheel|slice|peeled|zest|organic|large|small|cube|cubes|crushed|centifuged|clarified|centrifugeclarified)\\b") %>%
+    str_remove_all("\\b(fresh|optional|garnish|for|to|taste|rim|twist|wedge|wheel|slice|peeled|zest|organic|large|small|cube|cubes|crushed|centifuged|Centrifuged|clarified|centrifugeclarified)\\b") %>%
     str_squish()%>%
     str_replace_all("\\s*,\\s*", ", ")
   )
 
   #raw ingredients column nem kell többé
   ingredients_clean$ingredients <- NULL
-# na s most akkor tidy formatba próbájuk tenni 
+# na s most akkor tidy formatba próbáljuk tenni 
 tidy_ingredients <- ingredients_clean %>%
-  pivot_wider(names_from = name, values_from = ingredients_clean)
+separate_rows(ingredients_clean, sep = ",\\s*") %>%
+  mutate(ingredients_clean = str_squish(ingredients_clean)) %>% group_by(name) %>%
+  mutate(ingredient_no = row_number()) %>%
+  ungroup() %>%
+  pivot_wider(id_cols = name,
+  names_from = ingredient_no,
+  values_from = ingredients_clean,
+  names_prefix = "ingredient_")
+
+# ez így megfelelőnek túnik, bár van egy halom NA a sorokban...rm.na?
 
 
 
