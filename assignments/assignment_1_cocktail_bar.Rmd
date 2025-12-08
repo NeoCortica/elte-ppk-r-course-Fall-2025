@@ -121,28 +121,53 @@ view(ingredients_frequency)
 
 Count the number of ingredients and filter all the cocktails that has that many.
 
-```{r}
-
+```{r} 
+#long formátumba teszem és megszámolom mely nevek fordulnak elő a leggyakrabban; ugyanúgy rangsor jelenik meg a futtatáskor holt versenyben áll 6 koktél, mindegyikben 6 összetevő van 
+ingredients_most <- ingredients_clean %>%
+separate_rows(ingredients_clean, sep = ",\\s*") %>%
+count(name, name = "num_ingredients") %>%
+arrange(desc(num_ingredients))
+view(ingredients_most)
 ```
 
 ## 7. How many ingredients appear in only one cocktail (rare ingredient)?
 
-Count all cocktails with only one ingredient, and
+Count all cocktails with only one ingredient, and // és?
 
 ```{r}
+ingredients_rare <- ingredients_clean %>%
+separate_rows(ingredients_clean, sep = ",\\s*") %>%
+distinct(name, ingredients_clean) %>%
+add_count(ingredients_clean, name = "num_cocktails") %>%
+filter(num_cocktails == 1) %>%
+arrange(ingredients_clean)
+view(ingredients_rare)
+
+# TL;DR a lot. here's the list. Total of 26 ingredients appear in only one cocktail. 
 
 ```
 
 ## 8. Which cocktail has an ingredient that is only used in one cocktail?
 
-```{r}
-
+```{r} 
+#A kérdés az előző tükrözöttje. Első oszlopban találhatók a válaszok.
+ingredients_rare <- ingredients_clean %>%
+separate_rows(ingredients_clean, sep = ",\\s*") %>%
+distinct(name, ingredients_clean) %>%
+add_count(ingredients_clean, name = "num_cocktails") %>%
+filter(num_cocktails == 1) %>%
+arrange(ingredients_clean)
+view(ingredients_rare) 
 ```
 
 ## 9. What are the cocktails without rare ingredients?
 
-```{r}
-  
+```{r} 
+#mivel megvannak a ritka koktélok nevei egy oszlopban, ezért csak kivonjuk őket az eredeti listából
+cocktails_nonrare <- ingredients_clean %>%
+  anti_join(ingredients_rare, by = "name")
+#itt is lene a lista azokkal a koktélokkal amikben nincs ritka összetevő
+  view(cocktails_nonrare)
 ```
 
 ## 10. Create a cheat sheet for the bartender!
