@@ -31,10 +31,10 @@ Note: There are several different ways to solve these tasks, feel free to come u
 
 Read the cocktail dataset from: <https://github.com/nthun/cocktail-balance> You can also find the codebook there.
 
-```{r} #5 perc eltelt míg rájöttem hogy nem csv
+```{r} #5 perc eltelt míg rájöttem hogy nem csv 
 cocktail_raw <- read_tsv("https://raw.githubusercontent.com/nthun/cocktail-balance/refs/heads/master/cocktail_data.tsv")
 
-```
+```         
 
 ## 2. Transform the data table and clean the ingredient variable!
 
@@ -44,7 +44,7 @@ The ingredients are currently in a single cell for each cocktail. It would be be
 #létrehozunk egy változót a tisztított hozzávalóknak és megkezdjük a felesleges elemek eltávolítását
 ingredients_clean <- cocktail_raw %>%
   select(name, ingredients) %>% 
-  separate_rows(ingredients, sep = ",") %>%
+  separate_rows(ingredients, sep = ", ") %>%
   mutate(
   ingredients_clean = ingredients %>%  
     #számokat kiszedjük
@@ -58,11 +58,8 @@ ingredients_clean <- cocktail_raw %>%
     #kiszedjük a fölös leíró szavakat, syrup fajták maradnak (pl. simple,), de a "facsart"/"leheletnyi" repül
     str_remove_all("\\b(fresh|optional|garnish|for|to|taste|rim|twist|wedge|wheel|slice|peeled|zest|organic|large|small|cube|cubes|crushed)\\b") %>%
     str_squish() 
-
-    
   )
   
-
 ```
 
 ## 3. All ingredients in alphabetical order
