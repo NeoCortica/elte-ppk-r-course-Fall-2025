@@ -89,7 +89,7 @@ Before opening the bar, you need to find a reliable supplier that has all the in
 
 vimpex_rendeles <- ingredients_clean %>%
 separate_rows(ingredients_clean, sep = ",\\s*") %>%
-# itt lowercasere állítok mindent, mert másképp újrakezdi az ABC-t az uppercase W után lowercase a-tól kezdődik megint
+# itt lowercasere állítok mindent, mert másképp újrakezdi az ABC-t az uppercase W után lowercase a-tól kezdődik megint és halad ASCII szerint
 mutate(ingredients_clean = str_to_lower(ingredients_clean)) %>%
 distinct(ingredients_clean) %>%
 arrange(ingredients_clean)
@@ -110,7 +110,11 @@ count(vimpex_rendeles) #59 összetevő kell
 What are the 10 most frequently used ingredients? If there are ties, you can list more than 10.
 
 ```{r}
-
+#ez itt fel is dob egy listát, ami a top tízzel kezdődik
+ingredients_frequency <- ingredients_clean %>%
+separate_rows(ingredients_clean, sep = ",\\s*") %>%
+count(ingredients_clean, sort = TRUE) 
+view(ingredients_frequency)
 ```
 
 ## 6. Which cocktail(s) has/have the most ingredients?
