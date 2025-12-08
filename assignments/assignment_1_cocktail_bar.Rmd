@@ -63,6 +63,12 @@ ingredients_clean <- cocktail_raw %>%
 
   #raw ingredients column nem kell többé
   ingredients_clean$ingredients <- NULL
+# na s most akkor tidy formatba próbájuk tenni 
+tidy_ingredients <- ingredients_clean %>%
+  pivot_wider(names_from = name, values_from = ingredients_clean)
+
+
+
 ```
 
 ## 3. All ingredients in alphabetical order
