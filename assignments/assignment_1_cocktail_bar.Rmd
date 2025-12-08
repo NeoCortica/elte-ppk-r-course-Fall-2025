@@ -57,9 +57,12 @@ ingredients_clean <- cocktail_raw %>%
     str_remove_all("\\b(ml|mL|cl|l|L|dl|oz|fl oz|tsp|tbsp|dash|dashes|drop|drops|sprig|sprigs|splash|splashes|pinch|pinches|barspoon|bar spoon|bar-spoon|shot|shots|jigger|pony|cup|cups|abv|)\\b") %>%
     #kiszedjük a fölös leíró szavakat, syrup fajták maradnak (pl. simple,), de a "facsart"/"leheletnyi" repül
     str_remove_all("\\b(fresh|optional|garnish|for|to|taste|rim|twist|wedge|wheel|slice|peeled|zest|organic|large|small|cube|cubes|crushed)\\b") %>%
-    str_squish() 
+    str_squish()%>%
+    str_replace_all("\\s*,\\s*", ", ")
   )
-  
+
+  #raw ingredients column nem kell többé
+  ingredients_clean$ingredients <- NULL
 ```
 
 ## 3. All ingredients in alphabetical order
