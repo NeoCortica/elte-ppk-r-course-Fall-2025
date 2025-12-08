@@ -51,12 +51,13 @@ ingredients_clean <- cocktail_raw %>%
     str_remove_all("[0-9]") %>%
     #breaket átíruk vesszővé 
     str_replace_all("<br/>", ",") %>%
+    str_replace_all("<br>", ",") %>%
     #kiszedünk minden szimbólumot, de az előbb kreált vesszők maradnak
     str_remove_all("[[:punct:]&&[^,]]") %>%
     #megpróbálom kiszedni az összes lehető mértékegységet amit mixologyban használnak
     str_remove_all("\\b(ml|mL|cl|l|L|dl|oz|fl oz|tsp|tbsp|dash|dashes|drop|drops|sprig|sprigs|splash|splashes|pinch|pinches|barspoon|bar spoon|bar-spoon|shot|shots|jigger|pony|cup|cups|abv|)\\b") %>%
     #kiszedjük a fölös leíró szavakat, syrup fajták maradnak (pl. simple,), de a "facsart"/"leheletnyi" repül
-    str_remove_all("\\b(fresh|optional|garnish|for|to|taste|rim|twist|wedge|wheel|slice|peeled|zest|organic|large|small|cube|cubes|crushed)\\b") %>%
+    str_remove_all("\\b(fresh|optional|garnish|for|to|taste|rim|twist|wedge|wheel|slice|peeled|zest|organic|large|small|cube|cubes|crushed|centifuged|clarified|centrifugeclarified)\\b") %>%
     str_squish()%>%
     str_replace_all("\\s*,\\s*", ", ")
   )
