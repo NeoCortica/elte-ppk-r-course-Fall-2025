@@ -107,8 +107,24 @@ Notes:
 -   The point size is 2, . The theme is set to light.
 
 ```{r}
+# GitHub API rate limit exceeded, fapadosan olvassuk be
+commute <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2019/2019-11-05/commute.csv")
 
+state_commutes <- commute %>% 
+  #ide csak azért van betéve a state_region hogy tudjak majd színként hivatkozni rá, a state_abb is a plot miatt van itt
+  group_by(state, state_region, state_abb) %>%
+  summarise(
+    BIKE = sum(n[mode == "Bike"], na.rm = TRUE),
+    WALK = sum(n[mode == "Walk"], na.rm = TRUE)
+  )
 
+ggplot(state_commutes, aes(x = WALK, y = BIKE, color = state_region, label = state_abb)) +
+  geom_point() + 
+  scale_x_log10(labels = scales::comma_format()) +
+  scale_y_log10(labels = scales::comma_format()) +
+  labs(
+
+  )
 
 
 ```
