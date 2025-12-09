@@ -37,28 +37,26 @@ expeditions <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidyt
 top_peaks <- expeditions %>%
   #megtartjuk a top 15 csúcsot, elvetjük az other-t
   mutate(peak_name = fct_lump(peak_name, n = 15)) %>%
-  filter(peak_name != "Other", !is.na(season)) %>%
+  filter(peak_name != "Other") %>%
   #kezdjük előkészíteni a rangsort
   count(peak_name, season, name = "n_expeditions") %>%
   group_by(peak_name) %>%
   mutate(total_expeditions = sum(n_expeditions)) %>%
-  #ungroup nélkül nem lesz 
+  #ungroup nélkül nem lesz jó a sorrend
   ungroup() %>%
   mutate(
     peak_name = fct_reorder(peak_name, total_expeditions),
-    season = fct_relevel(season, c("Autumn", "Spring", "Summer","Unknown", "Winter"))
-  )
+    season = fct_relevel(season, c("Autumn", "Spring", "Summer","Unknown", "Winter")))
 #elkezdjük a plotot
 ggplot(top_peaks, aes(x = n_expeditions, y = peak_name, fill = season)) +
   geom_col() +
   #hozzáadjuk a veridris témát
-  scale_fill_viridis_d(name = "Season") +
-  #megadjuk a "cymeket és a pozíciókat"
+  scale_fill_viridis_d(name = "season") +
+  #megadjuk a címeket és a pozíciókat
   labs(
     x = NULL,
     y = "Number of expeditions",
-    title = "The 15 most popular peaks stacked by season of expedition"
-  ) +
+    title = "The 15 most popular peaks stacked by season of expedition") +
     #kiszedjük a szürke hátteret a táblából
   theme_light() +
   #jobbról az aljára tesszük a color coding-ot  
@@ -77,6 +75,25 @@ Notes:
 
 ```{r}
 
+phd_by_field <- tidytuesdayR::tt_load("2019-02-19")$phd_by_field
+#phd_by_field tidynak tűnik, csoportosítunk a releváns változók alpján
+phd_all <- phd_by_field %>%
+group_by(year, broad_field) %>%
+#összegezünk és figyelmen kívül hagyjuk a NA értékeket
+summarise(phds = sum(n_phds, na.rm = TRUE))
+#plotot készítjük a megadott paraméterek alapján
+ggplot(phd_all, aes(x = year, y = phds, color = broad_field)) +
+  geom_line(size = 1.2) +
+  scale_color_brewer(palette = "Dark2", name = "Broad field") +
+  scale_x_continuous(breaks = scales::pretty_breaks()) +
+  scale_y_continuous(labels = scales::comma_format()) +
+  labs(
+    title = "Number of awarded Ph.D.-s in the US by year",
+    y = NULL,
+    x = NULL
+
+  ) +
+  theme_minimal()
 ```
 
 ## Task 3: Commute in the US
@@ -90,5 +107,8 @@ Notes:
 -   The point size is 2, . The theme is set to light.
 
 ```{r}
+
+
+
 
 ```
