@@ -175,15 +175,26 @@ cocktails_nonrare <- ingredients_clean %>%
 Create a matrix that shows all cocktail names as rows and all ingredients as columns. When a cocktail requires an ingredient, there should be an "X" in the cell, otherwise, the cell should remain empty. Example:
 
 ```{r echo=FALSE}
-tribble(~name, ~Lime, ~`White rum`, ~`Cane sugar`, ~`Coca-cola`, ~Mint, ~Soda,
-        "Caipirissima", "X", "X", "X", "", "", "",
-        "Cuba Libre", "X", "X", "", "X","","",
-        "Mojito", "X", "X", "", "", "X", "X") %>% 
-    relocate(name, sort(names(.)))
+#tribble(~name, ~Lime, ~`White rum`, ~`Cane sugar`, ~`Coca-cola`, ~Mint, ~Soda,
+        #"Caipirissima", "X", "X", "X", "", "", "",
+        #"Cuba Libre", "X", "X", "", "X","","",
+        #"Mojito", "X", "X", "", "", "X", "X") %>% 
+    #relocate(name, sort(names(.)))
+    #Más megközelíítést fogok használni, tekintve hogy van már egy long tidy df-ünk, csak annyit kell tenni hogy a  a names columnot meghagyjuk ahogy van, az ingredients cleanre pedig teszünk egy pivot_wide-ot...az X-ek kérdése iődkőzben kiderül, de egy mutate lesz ebből talán
+
+cheats_sheet <-ingredients_clean %>%
+separate_rows(ingredients_clean, sep = ",\\s*") %>%
+#a következő distinct nagyon fontos, nélküle errort dob, "can't convert character to list"
+distinct(name, ingredients_clean) %>%
+mutate(value = "X") %>%
+pivot_wider(names_from = ingredients_clean, values_from = value, values_fill = "" )
+
+view(cheats_sheet)
+
 ```
 
 ```{r}
-
+# A Gin and Juice Centrifuge-ban van egy "simple, ezzel nem tudom mit kezdjek, feltételezem simple szirup (?), de inkább hagyom úgy ahogy van, ki tudja"
 ```
 
 Congrats, the bar is now officially open!
