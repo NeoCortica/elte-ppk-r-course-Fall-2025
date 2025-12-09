@@ -32,7 +32,7 @@ The 2020-09-22 TidyTueday datasets are about climbing expeditions. From the thre
 
 ```{r}
 #beolvassuk a csv-t
-expeditions <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2020/2020-09-22/expeditions.csv')
+expeditions <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2020/2020-09-22/expeditions.csv')
 #megpróbáljuk rendezni, köszi a forcats tippet
 top_peaks <- expeditions %>%
   #megtartjuk a top 15 csúcsot, elvetjük az other-t
