@@ -118,13 +118,17 @@ state_commutes <- commute %>%
     WALK = sum(n[mode == "Walk"], na.rm = TRUE)
   )
 
-ggplot(state_commutes, aes(x = WALK, y = BIKE, color = state_region, label = state_abb)) +
+ggplot(state_commutes, aes(x = WALK, y = BIKE, color = state_region)) +
   geom_point() + 
+  geom_text(aes(label = state_abb),color = "black")+
   scale_x_log10(labels = scales::comma_format()) +
   scale_y_log10(labels = scales::comma_format()) +
   labs(
-
-  )
-
+    title = "Title number of people walking vs. biking to work in each USA state",
+    x = "Number of ppl walking to work (log N)",
+    y = "Number of ppl biking to work (log N)"
+  ) +
+    theme_minimal()
+#hát van itt néhány állam pluszban, de aes és geom szempontból szerintem hozza az elvártat
 
 ```
