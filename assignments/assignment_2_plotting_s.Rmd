@@ -31,7 +31,38 @@ The 2020-09-22 TidyTueday datasets are about climbing expeditions. From the thre
 -   The bar colors use the viridis palette and light theme.
 
 ```{r}
-
+#beolvassuk a csv-t
+expeditions <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2020/2020-09-22/expeditions.csv')
+#megpróbáljuk rendezni, köszi a forcats tippet
+top_peaks <- expeditions %>%
+  #megtartjuk a top 15 csúcsot, elvetjük az other-t
+  mutate(peak_name = fct_lump(peak_name, n = 15)) %>%
+  filter(peak_name != "Other", !is.na(season)) %>%
+  #kezdjük előkészíteni a rangsort
+  count(peak_name, season, name = "n_expeditions") %>%
+  group_by(peak_name) %>%
+  mutate(total_expeditions = sum(n_expeditions)) %>%
+  #ungroup nélkül nem lesz 
+  ungroup() %>%
+  mutate(
+    peak_name = fct_reorder(peak_name, total_expeditions),
+    season = fct_relevel(season, c("Autumn", "Spring", "Summer","Unknown", "Winter"))
+  )
+#elkezdjük a plotot
+ggplot(top_peaks, aes(x = n_expeditions, y = peak_name, fill = season)) +
+  geom_col() +
+  #hozzáadjuk a veridris témát
+  scale_fill_viridis_d(name = "Season") +
+  #megadjuk a "cymeket és a pozíciókat"
+  labs(
+    x = NULL,
+    y = "Number of expeditions",
+    title = "The 15 most popular peaks stacked by season of expedition"
+  ) +
+    #kiszedjük a szürke hátteret a táblából
+  theme_light() +
+  #jobbról az aljára tesszük a color coding-ot  
+  theme(legend.position = "bottom")
 ```
 
 ## Task 2: PhDs awarded
