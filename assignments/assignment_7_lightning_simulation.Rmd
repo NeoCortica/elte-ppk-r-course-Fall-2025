@@ -32,6 +32,10 @@ There is no dataset for this project. You have to simulate from scratch!
 ![Lightning](assignment_7_example/example_lightning.png)
 
 ```{r}
+#Basic paraméterek
 
+starting_point <- 0
+fork_prob <- 0.01
+steps <- 500 #ez teljesen random, nem tudom mekkora léptékkel dolgozik, remélem 500 pixel azért lesz
 ```
 
