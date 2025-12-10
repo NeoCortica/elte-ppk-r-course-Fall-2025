@@ -32,15 +32,16 @@ There is no dataset for this project. You have to simulate from scratch!
 ![Lightning](assignment_7_example/example_lightning.png)
 
 ```{r}
-n=100;
-#a normál eloszlásból n számú értéket generálunk és kumulatívan építjük őket egymás alá (y mínuszba megy)
+#meghatározzuk a "lépések" számát amit a villámunk majd megtesz, sszabadon állítható, 500 fölött nagy eltérés már nincs
+n=500;
+#a normál eloszlásból (rnorm) n számú értéket generálunk (tehát egyben a lépések számával is megfelel) és kumulatívan építjük őket (cumsum) egymás alá (y mínuszba megy); az x tengelyen helyezzük majd el őket a plotban, és az rnorm által adott oszscilláció adja meg a villám alakját
 x=cumsum(rnorm(n))
 #az y értékei negatívak, a villám fentről tart lefelé
 y = -1:-n
 #egyszerű plot, type line, fehér villám fekete háttéren
 plot(x,y, type="l",col="white")
 
-#sajnos az ágazást nem tudom hozzáadni, de nincs benne loop! megrpóbálom animálni
+#sajnos az ágazást nem tudom hozzáadni, de nincs benne loop! megrpóbálom animálni, ha ez alatt nem jelenik meg, nem sikerült(egyelőre a gganimate 100 rajzot készít nekem, valhogy gifet szeretnék belőle csinálni)
 
 
 ```
