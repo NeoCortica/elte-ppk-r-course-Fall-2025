@@ -42,7 +42,11 @@ y = -1:-n
 plot(x,y, type="l",col="white")
 
 #sajnos az ágazást nem tudom hozzáadni, de nincs benne loop! megrpóbálom animálni, ha ez alatt nem jelenik meg, nem sikerült(egyelőre a gganimate 100 rajzot készít nekem, valhogy gifet szeretnék belőle csinálni)
+#Inspired by:
 
+#https://www.youtube.com/watch?v=ya1braz5n88
+#https://stackoverflow.com/questions/75439364/gganimate-for-random-walk-model#:~:text=create_random_walk%20%3C,x%29%29
+#főként https://cran.r-project.org/web/packages/walker/vignettes/walker.html
 
 ```
 
