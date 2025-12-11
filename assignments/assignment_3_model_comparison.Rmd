@@ -59,7 +59,9 @@ In your discussion of the findings, briefly interpret the results of the above a
 Read the dataset used in this assignment. Pay attention to the extension of the datafile.
 
 ```{r}
-
+library(dplyr)
+library(tidytuesdayR)
+df <- readxl::read_xlsx("/Users/zsoltternei/assignment/elte-ppk-r-course-Fall-2025/data/assignment_3_dataset.xlsx")
 ```
 
 ## Data and model diagnostics 
