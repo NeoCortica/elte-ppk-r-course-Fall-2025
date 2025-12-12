@@ -59,9 +59,16 @@ In your discussion of the findings, briefly interpret the results of the above a
 Read the dataset used in this assignment. Pay attention to the extension of the datafile.
 
 ```{r}
+#Megnyitjuk a szükséges packegeket
+
 library(dplyr)
 library(tidytuesdayR)
-df <- readxl::read_xlsx("/Users/zsoltternei/assignment/elte-ppk-r-course-Fall-2025/data/assignment_3_dataset.xlsx")
+library(skimr)
+library(janitor)
+library(readxl)
+#Beolvassuk az excelt és megszabadulunk a rosszul formatált nevektől (janitor::clean_names)
+df <- read_xlsx("/Users/zsoltternei/assignment/elte-ppk-r-course-Fall-2025/data/assignment_3_dataset.xlsx") %>%
+  clean_names()
 ```
 
 ## Data and model diagnostics 
@@ -71,6 +78,12 @@ df <- readxl::read_xlsx("/Users/zsoltternei/assignment/elte-ppk-r-course-Fall-20
 Run an exploratory data analysis (EDA) to investigate the dataset.
 
 ```{r}
+#Rápillantunk
+glimpse(df)
+#Gyorsan összegezzük hogy miből is áll ez a sok col, néhány furcsa értéket máris láthatunk, pl pain 50, sex 3 különböző, és nem other, mert végigfutottam View()-al. Többi érték szerencsére megfelel.
+skim(df)
+df%>%distinct(sex) #woman. 
+
 
 ```
 
@@ -79,7 +92,10 @@ Run an exploratory data analysis (EDA) to investigate the dataset.
 If you find values in the dataset during the EDA, that are not correct based on the provided descriptions of the variables of the dataset please correct them here.
 
 ```{r}
+#átalakítjuk az értékeket
 
+df$sex[df$sex == "woman"] <- "female"
+df$pain[df$pain == "50"] <- "5"
 ```
 
 ### Model diagnostics
@@ -88,7 +104,7 @@ If you find values in the dataset during the EDA, that are not correct based on 
 In order to test the more complex model for outliers and to test the assumptions first build the model.
 
 ```{r}
-
+complex_model <- lm(pain ~ )
 ```
 
 #### Checking for influential outliers
@@ -176,7 +192,7 @@ Multicollinearity assumption
 Create the simple model and get the results of the model that needs to be reported based on the What to report section.
 
 ```{r}
-
+simple_model <- lm(pain ~ age + sex, data = df)
 ```
 
 Create the more complex model based on the results of the model diagnostics. Also, get the results that needs to be reported based on the What to report section.
